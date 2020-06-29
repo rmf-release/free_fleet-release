@@ -1,0 +1,12 @@
+Source: ros-eloquent-free-fleet-examples
+Section: misc
+Priority: optional
+Maintainer: Aaron <aaron@openrobotics.org>
+Build-Depends: debhelper (>= 9.0.0), ros-eloquent-ros-workspace
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-eloquent-free-fleet-examples
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-eloquent-free-fleet-server, ros-eloquent-rclpy, ros-eloquent-rmf-fleet-msgs, ros-eloquent-ros-workspace
+Description: A package containing some examples of using free fleet components
