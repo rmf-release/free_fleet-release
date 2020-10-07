@@ -1,0 +1,8 @@
+ros-foxy-free-fleet-examples (1.1.0-1focal) focal; urgency=high
+
+  * Provides examples of running free fleet servers with simulated clients.
+  * Contributors: Aaron Chong
+
+ -- Aaron <aaron@openrobotics.org>  Thu, 24 Sep 2020 00:00:00 -0000
+
+

@@ -1,0 +1,12 @@
+Source: ros-foxy-free-fleet-examples
+Section: misc
+Priority: optional
+Maintainer: Aaron <aaron@openrobotics.org>
+Build-Depends: debhelper (>= 9.0.0), ros-foxy-ament-cmake, ros-foxy-ros-workspace
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-foxy-free-fleet-examples
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-foxy-free-fleet-server, ros-foxy-rclpy, ros-foxy-rmf-fleet-msgs, ros-foxy-ros-workspace
+Description: A package containing some examples of using free fleet components
