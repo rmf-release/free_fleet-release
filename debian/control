@@ -1,0 +1,12 @@
+Source: ros-rolling-free-fleet-server
+Section: misc
+Priority: optional
+Maintainer: Morgan Quigley <mquigley@openrobotics.org>
+Build-Depends: debhelper (>= 9.0.0), ros-foxy-ament-cmake, ros-foxy-builtin-interfaces, ros-foxy-rosidl-default-generators, ros-rolling-ament-lint-common, ros-rolling-free-fleet, ros-rolling-rclcpp, ros-rolling-rmf-fleet-msgs, ros-rolling-ros-workspace
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-rolling-free-fleet-server
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-rolling-free-fleet, ros-rolling-rclcpp, ros-rolling-rmf-fleet-msgs, ros-rolling-ros-workspace
+Description: Free Fleet server ROS 2 wrapper
