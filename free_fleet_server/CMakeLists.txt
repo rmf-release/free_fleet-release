@@ -8,50 +8,56 @@ if(NOT CMAKE_CXX_STANDARD)
 endif()
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-  add_compile_options(-Wall -Wextra -Wpedantic)
+  # we dont use add_compile_options with pedantic in message packages
+  # because the Python C extensions dont comply with it
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic")
 endif()
 
-if(NOT CMAKE_BUILD_TYPE)
-  # Use the Release build type by default if the user has not specified one
-  set(CMAKE_BUILD_TYPE Release)
+find_package(ament_cmake QUIET)
+
+if (ament_cmake_FOUND)
+  find_package(builtin_interfaces REQUIRED)
+  find_package(rclcpp REQUIRED)
+  find_package(rmf_fleet_msgs REQUIRED)
+  find_package(free_fleet REQUIRED)
+  find_package(Eigen3 REQUIRED)
+
+  add_executable(free_fleet_server
+    src/main.cpp
+    src/utilities.cpp
+    src/ServerNode.cpp
+    src/ServerNodeConfig.cpp
+  )
+  target_link_libraries(free_fleet_server
+    ${free_fleet_LIBRARIES}
+    Eigen3::Eigen
+  )
+  target_include_directories(free_fleet_server
+    PRIVATE
+      ${free_fleet_INCLUDE_DIRS}
+  )
+  ament_target_dependencies(free_fleet_server
+    rclcpp
+    rmf_fleet_msgs
+  )
+
+  
+  install(
+    TARGETS free_fleet_server
+    RUNTIME DESTINATION lib/free_fleet_server
+    LIBRARY DESTINATION lib
+    ARCHIVE DESTINATION lib
+  )
+
+  ament_package()
+
+else()
+  message("ament_cmake not found so skipping this ROS2 package")
 endif()
 
-include(GNUInstallDirs)
+# -----------------------------------------------------------------------------
 
-find_package(ament_cmake REQUIRED)
-find_package(builtin_interfaces REQUIRED)
-find_package(rclcpp REQUIRED)
-find_package(rmf_fleet_msgs REQUIRED)
-find_package(free_fleet REQUIRED)
-find_package(Eigen3 REQUIRED)
 
-add_executable(free_fleet_server
-  src/main.cpp
-  src/utilities.cpp
-  src/ServerNode.cpp
-  src/ServerNodeConfig.cpp
-)
+# -----------------------------------------------------------------------------
 
-target_link_libraries(free_fleet_server
-  free_fleet::free_fleet
-  Eigen3::Eigen
-  ${rclcpp_LIBRARIES}
-  ${rmf_fleet_msgs_LIBRARIES}
-)
 
-target_include_directories(free_fleet_server
-  PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
-    ${rclcpp_INCLUDE_DIRS}
-    ${rmf_fleet_msgs_INCLUDE_DIRS}
-)
-
-install(
-  TARGETS free_fleet_server
-  RUNTIME DESTINATION lib/free_fleet_server
-  LIBRARY DESTINATION lib
-  ARCHIVE DESTINATION lib
-)
-
-ament_package()
